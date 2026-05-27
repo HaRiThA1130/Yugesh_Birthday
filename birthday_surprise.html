@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎂 Yugesh's Birthday Surprise 🎂</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Tuned pastel palette: slightly stronger but soft */
+            --pink-a: #FFE8F2; /* soft pink base */
+            --pink-b: #FFB3D9; /* gentle rose */
+            --mint-a: #E6FFF4; /* soft mint base */
+            --mint-b: #8FE7C8; /* brighter mint */
+            --lavender-a: #EFEAFF; /* soft lavender base */
+            --lavender-b: #D6C9FF; /* pastel purple */
+            --accent-a: var(--lavender-b);
+            --accent-b: #C39BFF; /* stronger indigo/purple */
+            --teal-a: var(--mint-b);
+            --teal-b: #7FE0C1;
+            --warm-a: #FFEFF6;
+            --warm-b: #FFD1E8;
+            --danger: #FFC2C2; /* light red */
+            --bg-1: var(--pink-a);
+            --bg-2: var(--lavender-a);
+            --muted-foreground: #0f172a; /* dark text on light */
+            --text-dark: #0f172a;
+        }
+
+        /* (childhood photos screen removed) */
+
+        .scroll-message {
+            color: var(--text-dark);
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 24px;
+            line-height: 1.5;
+            animation: fadeInText 0.8s ease-in;
+            width: 100%;
+            max-width: 720px;
+        }
+
+        .scroll-message-line {
+            margin: 10px 0;
+        }
+
+        .childhood-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 12px;
+            width: 100%;
+            max-width: 460px;
+            animation: fadeInText 1.2s ease-in 0.2s both;
+        }
+
+        .childhood-photo-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            transition: transform 0.25s ease;
+            width: 100%;
+            height: 0;
+            padding-bottom: 100%; /* square */
+        }
+
+        .childhood-photo-card:hover {
+            transform: scale(1.03) rotateZ(-1.5deg);
+        }
+
+        .childhood-photo-card img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .childhood-decoration {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.9;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .decoration-1 { top: 6px; left: 6px; }
+        .decoration-2 { bottom: 6px; right: 6px; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(4deg); }
+        }
+
+        .scroll-hint {
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 14px;
+            margin-top: 18px;
+            margin-bottom: 8px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        /* Card overlay for gallery reveal message */
+        #childhoodRevealSection .scroll-message {
+            background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,245,250,0.88));
+            padding: 20px 28px;
+            border-radius: 14px;
+            box-shadow: 0 14px 40px rgba(15,23,42,0.08);
+            max-width: 820px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-dark);
+            backdrop-filter: blur(6px);
+            position: sticky;
+            top: 18px;
+            z-index: 20;
+        }
+
+        #childhoodRevealSection .scroll-message .scroll-message-line { margin: 6px 0; }
+
+        /* Push the photos lower so the card doesn't overlap them when revealed */
+        .childhood-full-grid { margin-top: 140px; }
+
+        /* Simple message screen with two childhood photos */
+        #childhoodMessageScreen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px 24px 32px;
+            gap: 16px;
+            background: linear-gradient(180deg, var(--pink-a), var(--warm-a));
+            color: var(--text-dark);
+            overflow-y: auto;
+            max-height: 100vh;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #childhoodMessageScreen .message-lines {
+            text-align: center;
+            max-width: 820px;
+            font-size: clamp(22px, 2.7vw, 28px);
+            line-height: 1.55;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0;
+            letter-spacing: 0.2px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,250,250,0.9));
+            padding: 18px 22px;
+            border-radius: 14px;
+            box-shadow: 0 18px 40px rgba(15,23,42,0.06);
+            border-left: 6px solid rgba(255,180,200,0.9);
+        }
+
+        #childhoodMessageScreen .message-lines div {
+            margin: 10px 0;
+        }
+
+        .two-photo-row {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+            justify-content: center;
+        }
+
+        .two-photo-row .photo-item {
+            flex: 1 1 45%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(15,23,42,0.06);
+            background: #fff0f6;
+        }
+
+        .two-photo-row img { width: 100%; height: auto; display: block; }
+
+        /* Small thumbnail variant used for the reveal below the message lines */
+        /* child photos in scrolling area */
+        .child-scroll { display:flex; gap:20px; justify-content:center; align-items:center; margin-top:8px; }
+        .child-scroll.hidden { display:none; }
+        .child-scroll.revealed { display:flex; }
+        .child-scroll-img { width:min(34vw, 260px); height:min(34vw, 260px); object-fit:contain; border-radius:12px; }
+
+        /* Final celebration wish screen */
+        #finalWishScreen {
+            position: relative;
+            overflow: hidden;
+            padding: 24px;
+            background:
+                radial-gradient(circle at top, rgba(255,255,255,0.86), rgba(255,255,255,0) 32%),
+                linear-gradient(135deg, #fff3be 0%, #ffd8ea 28%, #dff6ff 58%, #f9dfff 100%);
+            color: var(--text-dark);
+        }
+
+        #finalWishScreen::before,
+        #finalWishScreen::after {
+            content: '';
+            position: absolute;
+            width: 340px;
+            height: 340px;
+            border-radius: 50%;
+            filter: blur(24px);
+            opacity: 0.35;
+            pointer-events: none;
+        }
+
+        #finalWishScreen::before {
+            top: -80px;
+            left: -70px;
+            background: radial-gradient(circle, rgba(255,136,175,0.95), rgba(255,136,175,0));
+        }
+
+        #finalWishScreen::after {
+            right: -90px;
+            bottom: -90px;
+            background: radial-gradient(circle, rgba(100,219,255,0.92), rgba(100,219,255,0));
+        }
+
+        .final-wish-stage {
+            position: relative;
+            width: min(1040px, 100%);
+            min-height: calc(100vh - 48px);
+            border-radius: 36px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.42);
+            border: 1px solid rgba(255, 255, 255, 0.68);
+            box-shadow: 0 30px 80px rgba(15, 23, 42, 0.18);
+            backdrop-filter: blur(12px);
+        }
+
+        .final-celebration-layer {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .final-wish-bg {
+            position: absolute;
+            inset: 50% auto auto 50%;
+            width: min(440px, 72vw);
+            height: auto;
+            transform: translate(-50%, -46%);
+            opacity: 0.13;
+            filter: grayscale(1) brightness(1.2) contrast(0.92) blur(0.4px);
+            mix-blend-mode: screen;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .celebration-paper {
+            position: absolute;
+            top: -12vh;
+            border-radius: 4px;
+            opacity: 0.95;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.28);
+            animation-name: paperFall;
+            animation-timing-function: linear;
+            animation-fill-mode: forwards;
+        }
+
+        .celebration-paper::after {
+            content: '';
+            position: absolute;
+            inset: 3px 4px;
+            border-radius: inherit;
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .celebration-sparkle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 18px currentColor;
+            animation: sparkleTwinkle 1.8s ease-in-out infinite;
+        }
+
+        .final-wish-content {
+            position: relative;
+            z-index: 2;
+            min-height: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 28px 18px;
+        }
+
+        .final-wish-card {
+            max-width: 920px;
+            padding: 34px 22px;
+        }
+
+        .final-mini {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 18px;
+            margin-bottom: 24px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.78);
+            letter-spacing: 0.12em;
+            font-weight: 800;
+            font-size: 13px;
+            text-transform: uppercase;
+            color: #8b174f;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        .final-emoji {
+            font-size: clamp(72px, 12vw, 128px);
+            line-height: 1;
+            animation: floatPulse 3s ease-in-out infinite;
+        }
+
+        .final-wish-title {
+            margin-top: 10px;
+            font-size: clamp(28px, 5.2vw, 58px);
+            line-height: 1.12;
+            font-weight: 900;
+            color: #271229;
+        }
+
+        .final-wish-title .accent {
+            color: #d81b60;
+            text-shadow: 0 10px 30px rgba(216, 27, 96, 0.18);
+        }
+
+        .final-wish-note {
+            margin-top: 18px;
+            font-size: clamp(18px, 2.4vw, 28px);
+            line-height: 1.55;
+            font-weight: 700;
+            color: #4a2748;
+        }
+
+        .final-signoff {
+            margin-top: 28px;
+            font-size: clamp(18px, 2.2vw, 24px);
+            font-weight: 800;
+            color: #6d3b60;
+        }
+
+        .final-footer {
+            margin-top: 18px;
+            font-size: 15px;
+            color: rgba(39, 18, 41, 0.72);
+        }
+
+        @keyframes paperFall {
+            0% {
+                transform: translate3d(0, 0, 0) rotate(0deg) scale(0.95);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate3d(var(--drift-x), 125vh, 0) rotate(var(--spin)) scale(1);
+                opacity: 0.92;
+            }
+        }
+
+        @keyframes sparkleTwinkle {
+            0%, 100% { transform: scale(0.65); opacity: 0.45; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        @keyframes floatPulse {
+            0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.12)); }
+            50% { transform: translateY(-10px) scale(1.04); filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.16)); }
+        }
+
+        /* single-frame removed */
+
+        /* Stagger reveal for the 'our' full grid */
+        .childhood-full-grid .full-photo-card { opacity: 0; transform: translateY(18px); transition: transform 0.45s ease, opacity 0.45s ease; }
+        .childhood-full-grid.revealed .full-photo-card:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: translateY(0); }
+        .childhood-full-grid.revealed .full-photo-card:nth-child(2) { transition-delay: 100ms; opacity: 1; transform: translateY(0); }
+        .childhood-full-grid.revealed .full-photo-card:nth-child(3) { transition-delay: 200ms; opacity: 1; transform: translateY(0); }
+        .childhood-full-grid.revealed .full-photo-card:nth-child(4) { transition-delay: 300ms; opacity: 1; transform: translateY(0); }
+
+        /* Childhood reveal section inside gallery */
+        #childhoodRevealSection {
+            width: 100%;
+            max-width: 980px;
+            height: 100vh;
+            box-sizing: border-box;
+            padding: 36px 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background: transparent;
+        }
+
+        /* (medium grid removed; gallery now reveals our childhood photos only) */
+
+        /* Full grid (our photos) hidden initially, revealed later */
+        .childhood-full-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            width: 100%;
+            max-width: 980px;
+            margin-top: 36px;
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.55s ease, transform 0.55s ease;
+            pointer-events: none;
+        }
+
+        .childhood-full-grid.revealed {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .full-photo-card {
+            border-radius: 12px;
+            overflow: hidden;
+            background: linear-gradient(180deg, rgba(255,250,250,0.6), rgba(245,245,255,0.6));
+            box-shadow: 0 16px 36px rgba(15,23,42,0.08);
+        }
+
+        .full-photo-card img { display: block; width: 100%; height: auto; object-fit: contain; background: transparent; padding: 0; }
+
+        .btn {
+            padding: 20px 60px;
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #7DE3C8 0%, #38D9A9 100%);
+            color: var(--text-dark);
+            border: 1px solid rgba(15,23,42,0.04);
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1);
+        }
+
+        html, body { height: 100%; margin: 0; padding: 0; }
+
+        body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background: linear-gradient(180deg,var(--bg-1) 0%, var(--bg-2) 50%, var(--lavender-a) 100%); }
+
+        .container {
+            position: relative;
+            width: min(1220px, calc(100vw - 32px));
+            height: min(860px, calc(100vh - 32px));
+            margin: 16px auto;
+            padding: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            border-radius: 36px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.3), rgba(255,255,255,0.18));
+            border: 1px solid rgba(255,255,255,0.36);
+            box-shadow: 0 28px 80px rgba(15,23,42,0.12), inset 0 1px 0 rgba(255,255,255,0.4);
+        }
+
+        .screen {
+            position: absolute;
+            inset: 20px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 28px;
+            pointer-events: none;
+            transition: opacity 0.35s ease, transform 0.35s ease;
+            color: var(--text-dark);
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
+        }
+
+        .photo-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            background: rgba(0, 0, 0, 0.55);
+            transition: opacity 0.25s ease;
+        }
+
+        .photo-popup.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Popup photo (single consolidated definition appears later) */
+
+        .screen.active {
+            display: flex;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* top-right name removed per user's request */
+        .crown-emoji {
+            font-size: 100px;
+            margin-bottom: 30px;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .take-btn {
+            display: block;
+            padding: 15px 40px;
+            font-size: 18px;
+            background: linear-gradient(90deg, var(--pink-b), var(--lavender-b));
+            color: var(--text-dark);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 8px 20px rgba(15,23,42,0.06);
+        }
+
+        .take-btn:hover {
+            transform: translateY(-3px);
+            filter: brightness(0.98);
+        }
+
+        /* Camera Screen */
+        #cameraScreen {
+            background: linear-gradient(135deg, var(--warm-a) 0%, var(--warm-b) 100%);
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            padding: 30px;
+        }
+
+        /* Crown & Picture Question Screens (improved pastel styling) */
+        #crownScreen {
+            background: linear-gradient(135deg, var(--lavender-b) 0%, var(--pink-a) 100%);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .crown-text {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-dark);
+            text-shadow: none;
+        }
+
+        .crown-subtitle {
+            font-size: 18px;
+            color: rgba(15,23,42,0.75);
+            max-width: 680px;
+            line-height: 1.4;
+        }
+
+        #pictureQuestionScreen {
+            background: linear-gradient(135deg, var(--pink-a) 0%, var(--mint-a) 100%);
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 36px;
+            text-align: center;
+        }
+
+        #pictureQuestionScreen .question-text {
+            color: var(--text-dark) !important;
+        }
+
+        .camera-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .camera-photo {
+            width: 280px;
+            height: 280px;
+            border-radius: 20px;
+            border: 4px solid var(--mint-b);
+            object-fit: cover;
+            animation: cameraCapture 0.8s ease-out;
+            box-shadow: 0 20px 40px rgba(15,23,42,0.08);
+        }
+
+        @keyframes cameraCapture {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotateY(90deg);
+            }
+            50% {
+                transform: scale(1.05) rotateY(0deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotateY(0deg);
+            }
+        }
+
+        .camera-text-side {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--text-dark);
+            text-align: center;
+            line-height: 1.4;
+            animation: slideInLeft 0.8s ease-out 0.3s both;
+            max-width: 250px;
+        }
+
+        /* Center and style the question screen with a pinkish background */
+        #questionScreen {
+            position: absolute;
+            inset: 20px;
+            width: auto;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(180deg, var(--pink-a) 0%, var(--pink-b) 60%);
+            padding: 28px;
+        }
+
+        #questionScreen.active::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            box-shadow: 0 30px 80px rgba(255,105,180,0.12), inset 0 0 120px rgba(255,182,193,0.06);
+        }
+
+        #questionScreen .question-text {
+            font-size: 48px;
+            max-width: 760px;
+            margin: 0;
+            line-height: 1.2;
+            text-align: center;
+            text-shadow: 0 8px 30px rgba(255,182,193,0.12);
+            color: #301223; /* slight dark contrast on pink */
+        }
+
+        @media (max-width: 768px) {
+            #questionScreen .question-text { font-size: 26px; padding: 0 12px; }
+            .btn { padding: 12px 24px; font-size: 16px; min-width: 120px; }
+            #questionScreen { padding: 20px; }
+        }
+
+        @keyframes slideInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-24px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .button-group {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 18px;
+        }
+
+        .popup-photo {
+            width: 350px;
+            height: 350px;
+            border: 5px solid var(--lavender-b);
+            object-fit: cover;
+            animation: photoEmerge 1s ease-out;
+        }
+
+        @keyframes photoEmerge {
+            0% {
+                opacity: 0;
+                transform: scale(0.2) translateY(100px);
+            }
+            60% {
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .picture-btn {
+            display: block;
+            padding: 15px 40px;
+            font-size: 18px;
+            background: linear-gradient(90deg, var(--mint-b), var(--teal-b));
+            color: var(--text-dark);
+            gap: 12px;
+            margin-bottom: 14px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            min-height: 126px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .picture-btn:hover {
+            transform: translateY(-3px);
+            filter: brightness(0.98);
+        }
+
+        @media (max-width: 768px) {
+            #cameraScreen {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .camera-text-side {
+                font-size: 24px;
+                max-width: 100%;
+            }
+
+            .camera-photo {
+                width: 220px;
+                height: auto;
+                aspect-ratio: 1;
+            }
+
+            .btn,
+            .next-btn,
+            .take-btn,
+            .picture-btn {
+                padding: 14px 22px;
+                font-size: 16px;
+            }
+
+            .screen {
+                inset: 12px;
+                padding: 18px;
+            }
+        }
+
+        #welcomeScreen {
+            background: linear-gradient(135deg, var(--accent-a) 0%, var(--accent-b) 100%);
+            color: var(--text-dark);
+        }
+
+        .welcome-text {
+            font-size: clamp(30px, 4vw, 56px);
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            letter-spacing: 0.02em;
+            line-height: 1.15;
+            text-shadow: 0 2px 0 rgba(255,255,255,0.55);
+        }
+
+        /* Ensure screen content has space above fixed controls */
+        .screen { padding-bottom: 96px; }
+
+        #questionScreen,
+        #crownScreen,
+        #pictureQuestionScreen,
+        #cameraScreen,
+        #welcomeScreen,
+        #specialScreen,
+        #childhoodMessageScreen,
+        #ourPhotosScreen,
+        #galleryScreen,
+        #messagesScreen,
+        #finalWishScreen,
+        #goodbyeScreen {
+            max-height: calc(100% - 0px);
+        }
+
+        .subtitle {
+            font-size: clamp(18px, 2.2vw, 28px);
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 34px;
+            letter-spacing: 0.015em;
+            line-height: 1.25;
+        }
+
+        .screen,
+        .screen * {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial !important;
+            font-style: normal !important;
+            font-weight: 500 !important;
+        }
+
+        .next-btn {
+            display: block;
+            padding: 15px 40px;
+            font-size: 18px;
+            background: linear-gradient(90deg, var(--mint-b), var(--lavender-b));
+            color: var(--text-dark);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            max-width: 520px;
+            font-size: clamp(15px, 1.8vw, 18px);
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-3px);
+            filter: brightness(0.97);
+        }
+
+        /* Goodbye Screen */
+        #goodbyeScreen {
+            background: linear-gradient(135deg, var(--danger) 0%, #FFD6D6 100%);
+            color: var(--text-dark);
+        }
+
+        .goodbye-text {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+        }
+
+        /* Photos Screen */
+        #ourPhotosScreen {
+            background: linear-gradient(135deg, #f3ecff 0%, #ece7ff 100%);
+            justify-content: flex-start;
+            align-items: stretch;
+            overflow: hidden;
+            padding: 8px 12px 84px !important;
+        }
+
+        #galleryScreen {
+            background: linear-gradient(135deg, var(--lavender-a) 0%, var(--accent-b) 100%);
+            padding: 22px !important;
+            color: var(--text-dark);
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .photo-card {
+            background: linear-gradient(180deg, var(--pink-a), var(--lavender-a));
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 15px rgba(15,23,42,0.06);
+            transition: transform 0.3s;
+        }
+
+        .photo-card:hover {
+            transform: scale(1.05);
+        }
+
+        .photo-description {
+            width: 100%;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--lavender-a) 0%, var(--accent-b) 100%);
+            color: var(--text-dark);
+            font-size: 16px;
+            font-weight: 700;
+            padding: 15px;
+            text-align: center;
+            word-wrap: break-word;
+        }
+
+        .photo-caption {
+            padding: 10px;
+            background: linear-gradient(90deg, var(--mint-a), var(--lavender-a));
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        /* Messages Screen */
+        #messagesScreen {
+            background: linear-gradient(135deg, var(--pink-a) 0%, var(--pink-b) 100%);
+            color: var(--text-dark);
+        }
+
+        .message-box {
+            background: linear-gradient(180deg, var(--pink-a), var(--mint-a));
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 20px rgba(15,23,42,0.06);
+            max-width: 600px;
+            color: var(--text-dark);
+        }
+
+        .message-text {
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .message-author {
+            font-size: 14px;
+            color: var(--accent-b);
+            font-style: italic;
+        }
+
+        /* (final celebration screen removed) */
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, rgba(244, 86, 170, 0.95), rgba(240, 38, 149, 0.95));
+            border-radius: 999px;
+            padding: 10px 14px;
+            display: none;
+            gap: 8px;
+            align-items: center;
+            transition: transform 0.25s ease, opacity 0.25s ease;
+            z-index: 60;
+            box-shadow: 0 10px 30px rgba(15,23,42,0.06);
+            color: var(--text-dark);
+            border: 1px solid rgba(15,23,42,0.03);
+        }
+
+        .control-btn {
+            border: none;
+            background: linear-gradient(90deg, var(--accent-b), var(--lavender-b));
+            color: rgb(13, 113, 138);
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 999px;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(15,23,42,0.06);
+            transition: transform 0.18s ease, filter 0.18s ease;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-3px);
+            filter: brightness(0.98);
+        }
+
+        .controls.visible { display: flex !important; }
+
+        .screen .question-text,
+        .screen .welcome-text,
+        .screen .subtitle,
+        .screen .crown-text,
+        .screen .crown-subtitle,
+        .screen .camera-text-side,
+        .screen .special-message,
+        .screen .message-lines,
+        .screen .section-title,
+        .screen .goodbye-text {
+            text-align: center;
+        }
+
+        /* Ensure screen content has space above fixed controls */
+        .screen { padding-bottom: 120px; }
+
+        /* Special Message Screen */
+        #specialScreen {
+            background: linear-gradient(135deg, var(--pink-a) 0%, var(--lavender-a) 100%);
+            padding: 8px !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            overflow: hidden;
+            color: var(--text-dark);
+        }
+
+        .special-content-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            max-width: none;
+            padding: 0;
+        }
+
+        .special-photo-container {
+            position: relative;
+            min-width: 0;
+            width: min(42vw, 460px);
+            height: min(74vh, 620px);
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(15,23,42,0.06);
+            flex-shrink: 0;
+            background: linear-gradient(180deg, var(--pink-a), var(--lavender-a));
+            padding: 6px;
+        }
+
+        .special-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center top;
+            animation: specialPhotoZoom 4s ease-in forwards;
+            display: block;
+        }
+
+        @keyframes specialPhotoZoom {
+            from {
+                opacity: 0;
+                transform: scale(1.2);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInPhoto {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInText {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Our photos slow zoom */
+        #ourPhotosIntro {
+            width: min(980px, 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 10px;
+            margin: 0 auto;
+        }
+
+        .our-photos-container {
+            gap: 12px;
+            width: min(980px, 100%);
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            flex-wrap: nowrap;
+        }
+        .our-photo {
+            width: auto;
+            overflow: visible;
+            background: transparent;
+            display: block;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .our-photo img {
+            width: auto;
+            height: clamp(220px, 34vh, 360px);
+            max-width: 31vw;
+            object-fit: contain;
+            display: block;
+            animation: none;
+            border-radius: 14px;
+            border: 2px solid rgba(145, 109, 196, 0.35);
+            box-shadow: 0 18px 40px rgba(15,23,42,0.06);
+        }
+
+        @media (max-width: 900px) {
+            .our-photos-container {
+                gap: 10px;
+            }
+
+            #ourPhotosIntro {
+                width: min(780px, 100%);
+            }
+
+            .our-photo img {
+                height: clamp(150px, 24vh, 230px);
+                max-width: 30vw;
+            }
+        }
+
+        @keyframes slowZoomLoop {
+            from { transform: scale(1); }
+            to { transform: scale(1.08); }
+        }
+
+        .special-message-line {
+            margin: 1px 0;
+        }
+
+        .special-message {
+            flex: 1;
+            max-width: none;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-size: clamp(15px, 1.8vw, 22px);
+            line-height: 1.06;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .special-button {
+            display: block;
+            padding: 15px 40px;
+            font-size: 18px;
+            background: linear-gradient(90deg, var(--pink-b), var(--lavender-b));
+            color: var(--text-dark);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: transform 0.22s ease, filter 0.22s ease;
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 8px 20px rgba(15,23,42,0.06);
+        }
+
+        .special-button:hover {
+            transform: translateY(-4px);
+            filter: brightness(0.98);
+        }
+
+        /* (childhood photos CSS removed) */
+
+        .childhood-photo-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            transition: transform 0.25s ease;
+            width: 100%;
+            height: 0;
+            padding-bottom: 100%; /* square */
+        }
+
+        .childhood-photo-card:hover {
+            transform: scale(1.03) rotateZ(-1.5deg);
+        }
+
+        .childhood-photo-card img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .childhood-decoration {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.9;
+            animation: float 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .decoration-1 { top: 6px; left: 6px; }
+        .decoration-2 { bottom: 6px; right: 6px; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(4deg); }
+        }
+
+        .scroll-hint {
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 14px;
+            margin-top: 18px;
+            margin-bottom: 8px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @media (max-width: 1024px) {
+            .special-content-wrapper {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .special-photo-container {
+                width: min(84vw, 380px);
+                height: min(38vh, 300px);
+            }
+
+            .special-message {
+                max-width: 100%;
+                font-size: 13px;
+                line-height: 1.05;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Photo Popup Animation -->
+        <div class="photo-popup" id="photoPopup">
+            <img src="yugesh1.jpeg" alt="Yugesh" class="popup-photo" id="popupImage">
+            <input type="file" id="fileInput" accept="image/*" style="display:none" />
+        </div>
+        <!-- Screen 1: Question -->
+        <div class="screen active" id="questionScreen">
+            <div class="question-text">🎉 Are you YUGESH? 🎉</div>
+            <div class="button-group" style="margin-top:20px;">
+                <button class="btn btn-yes" onclick="answerYes()">YES ✅</button>
+                <button class="btn btn-no" onclick="answerNo()">NO ❌</button>
+            </div>
+        </div>
+
+        <!-- Screen 2: Crown Screen -->
+        <div class="screen" id="crownScreen">
+            <div class="crown-emoji">👑</div>
+            <div class="crown-text">Finally that man is here</div>
+            <div class="crown-subtitle">Please take this crown king<br>it's your special day</div>
+            <button class="take-btn" onclick="showScreen(2)">TAKE</button>
+        </div>
+
+        <!-- Screen 2: Picture Question -->
+        <div class="screen" id="pictureQuestionScreen">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 30px;">
+                <div class="camera-emoji" style="font-size: 100px; margin-bottom: 10px;">📷</div>
+                <div class="question-text" style="font-size: 48px;">I want a picture of a handsome guy..<br>Are you ready to take a picture ?</div>
+                <div class="button-group">
+                    <button class="btn btn-yes" onclick="openFilePicker()">UPLOAD PHOTO 📁</button>
+                    <button class="btn btn-yes" onclick="takePhotoAnimation()">USE DEFAULT PHOTO 📷</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 3: Camera Photo Screen -->
+        <div class="screen" id="cameraScreen">
+            <div class="camera-container">
+                <img src="yugesh1.jpeg" alt="Yugesh" class="camera-photo">
+            </div>
+            <div class="camera-text-side">WOW!!!<br>Who is this handsome guy????</div>
+        </div>
+
+        <!-- Screen 4: Welcome -->
+        <div class="screen" id="welcomeScreen">
+            <div class="welcome-text" style="font-size:clamp(30px,4vw,56px);font-weight:800;line-height:1.15;letter-spacing:0.02em;text-shadow:0 2px 0 rgba(255,255,255,0.55);">🎉 IT'S YOUR DAY, YUGESH! 🎉</div>
+            <div class="subtitle" style="font-size:clamp(18px,2.2vw,28px);font-weight:600;line-height:1.25;letter-spacing:0.015em;">A sweet little surprise is waiting for you...</div>
+        </div>
+
+        <!-- Screen 5: Special Message Screen -->
+        <div class="screen" id="specialScreen">
+            <div class="special-content-wrapper" style="display:flex;flex-direction:row;justify-content:center;align-items:center;gap:20px;width:100%;height:100%;max-width:none;padding:0;">
+                <div class="special-photo-container" style="position:relative;width:min(42vw,460px);height:min(74vh,620px);overflow:hidden;border-radius:20px;box-shadow:0 20px 60px rgba(15,23,42,0.06);background:linear-gradient(180deg, var(--pink-a), var(--lavender-a));padding:6px;flex-shrink:0;">
+                    <img src="yugesh2.jpeg" alt="Yugesh" class="special-photo" style="width:100%;height:100%;object-fit:contain;object-position:center top;display:block;animation:slowZoom 4s ease-in forwards, fadeInPhoto 1s ease-in;">
+                </div>
+                <div class="special-message" style="flex:1;max-width:none;height:100%;display:flex;flex-direction:column;justify-content:center;font-size:clamp(15px,1.8vw,22px);line-height:1.06;padding:0;overflow:hidden;text-align:center;">
+                    <div class="special-message-line">But honestly…</div>
+                    <div class="special-message-line">It's not just your looks ✨</div>
+                    <div class="special-message-line">It's the way you make people feel comfortable around you </div>
+                    <div class="special-message-line">And somehow…</div>
+                    <div class="special-message-line">You make ordinary moments feel special 🥺</div>
+                    <div class="special-message-line">Some people just exist…</div>
+                    <div class="special-message-line">But some people become peace </div>
+                    <div class="special-message-line">And you are one of them ✨</div>
+                    <div class="special-message-line">You probably don't realize this…</div>
+                    <div class="special-message-line">But your presence matters a lot to people 🥺</div>
+                    <div class="special-message-line">The smiles…<br>The memories…<br>The comfort…</div>
+                    <div class="special-message-line">Everything feels better with you around ❤️</div>
+                    <div class="special-message-line">Maybe that's why…</div>
+                    <div class="special-message-line">You became so special without even trying ✨</div>
+                    <div class="special-message-line">And today…</div>
+                    <div class="special-message-line">Is the birthday of someone truly unforgettable ❤️</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Screen: Message + Child Photos -->
+        <div class="screen" id="childhoodMessageScreen">
+            <div class="message-lines">
+                <div>I can bet you… 👀❤️</div>
+                <div>&nbsp;</div>
+                <div>You never expected THIS photo to appear here 🥺</div>
+                <div>&nbsp;</div>
+                <div>But some memories deserve to be felt again…</div>
+                <div>So…</div>
+                <div>Scroll down slowly ✨</div>
+            </div>
+
+            <!-- Childhood photos placed in the scrolling area (reveal on scroll) -->
+            <div class="child-scroll hidden" id="childScrollPhotos" aria-hidden="true">
+                <img src="child1.jpeg" alt="child1" class="child-scroll-img">
+                <img src="child2.jpeg" alt="child2" class="child-scroll-img">
+            </div>
+
+            <!-- Single full-frame photo box (revealed on scroll) -->
+            <!-- single-frame removed; carousel disabled per user request -->
+
+        </div>
+
+        <!-- (childhood photos screen removed) -->
+
+        <!-- Screen 7: Photos Gallery -->
+        <!-- Screen 7: Our Photos Intro (moved from gallery) -->
+        <div class="screen" id="ourPhotosScreen">
+            <div id="ourPhotosHost" style="width:100%; height:100%; display:flex; align-items:flex-start; justify-content:center; overflow:hidden;">
+                <div id="ourPhotosIntro" style="text-align:center; padding:6px 8px;">
+                    <div style="max-width:900px; margin:0 auto; font-size:clamp(22px, 2.8vw, 38px); font-weight:800; line-height:1.18; color:var(--text-dark);">
+                        <div>Not every bond survives time…</div>
+                        <div style="margin-top:4px;">but ours quietly did ✨</div>
+                    </div>
+
+                    <div class="our-photos-container" style="margin-top:6px;">
+                        <div class="our-photo"><img src="me,y1.jpeg" alt="me1"></div>
+                        <div class="our-photo middle-photo"><img src="me,y3.jpeg" alt="me3"></div>
+                        <div class="our-photo"><img src="me,y2.jpeg" alt="me2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Screen 8: Photos Gallery -->
+        <div class="screen" id="galleryScreen">
+            <div style="width: 100%;">
+                <div class="section-title">🧒 Childhood Memories 🧒</div>
+                <div class="photo-grid">
+                    <div class="photo-card">
+                        <div class="photo-description">A precious moment from your childhood, full of innocent joy and wonder. Those were the days! 📸</div>
+                        <div class="photo-caption">Good Old Days</div>
+                    </div>
+                    <div class="photo-card">
+                        <div class="photo-description">Pure innocence captured in time. Remember how simple and beautiful life was! 😊</div>
+                        <div class="photo-caption">Innocent Times</div>
+                    </div>
+                </div>
+
+                <div class="section-title">👥 Together & Growing Up 👥</div>
+                <div class="photo-grid">
+                    <div class="photo-card">
+                        <div class="photo-description">Our best moments together, creating memories that will last forever. Priceless! 💪</div>
+                        <div class="photo-caption">Best Moments</div>
+                    </div>
+                    <div class="photo-card">
+                        <div class="photo-description">Through thick and thin, we've been there for each other. That's what true friendship means! 🤝</div>
+                        <div class="photo-caption">Forever Friends</div>
+                    </div>
+                    <div class="photo-card">
+                        <div class="photo-description">Every frame tells a story of laughter, joy, and unforgettable times we've shared! 📷</div>
+                        <div class="photo-caption">Making Memories</div>
+                    </div>
+                </div>
+
+                <div class="section-title">⭐ You Are Amazing ⭐</div>
+                <div class="photo-grid">
+                    <div class="photo-card">
+                        <div class="photo-description">You are truly the best version of yourself. Your kindness and humor light up every room! ✨</div>
+                        <div class="photo-caption">The Best</div>
+                    </div>
+                    <div class="photo-card">
+                        <div class="photo-description">Awesome doesn't even begin to describe you. Keep being your incredible self! 🎯</div>
+                        <div class="photo-caption">Awesome Dude</div>
+                    </div>
+                    <div class="photo-card">
+                        <div class="photo-description">A legend in the making! Your achievements and spirit inspire everyone around you! 👑</div>
+                        <div class="photo-caption">Legend</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Screen 8: Birthday Messages -->
+        <div class="screen" id="messagesScreen">
+            <div style="width: 100%; max-width: 600px;">
+                <div class="section-title">💌 Birthday Wishes For You 💌</div>
+
+                <div class="message-box">
+                    <div class="message-text">🎊 HAPPY BIRTHDAY YUGESH! 🎊</div>
+                    <div class="message-author">Your Best Friend</div>
+                </div>
+
+                <div class="message-box">
+                    <div class="message-text">✨ Another year older, infinitely wiser and cooler! ✨</div>
+                    <div class="message-author">Because you're awesome</div>
+                </div>
+
+                <div class="message-box">
+                    <div class="message-text">🌟 May your day be filled with cake, laughter, and amazing moments! 🌟</div>
+                    <div class="message-author">Wishing you the best</div>
+                </div>
+
+                <div class="message-box">
+                    <div class="message-text">🚀 Here's to another year of being extraordinary! 🚀</div>
+                    <div class="message-author">Forever grateful for you</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Screen 10: Final Celebration Wish -->
+        <div class="screen" id="finalWishScreen">
+            <div class="final-wish-stage">
+                <img src="yugesh3.jpeg" alt="" aria-hidden="true" class="final-wish-bg">
+                <div class="final-celebration-layer" id="finalCelebrationLayer" aria-hidden="true"></div>
+                <div class="final-wish-content">
+                    <div class="final-wish-card">
+                        <div class="final-wish-note">
+                            ✨ From childhood memories<br>
+                            to forever comfort ❤️<br>
+                            Happy Birthday to my favorite person, Bava 🥺✨
+                        </div>
+                        <div class="final-signoff">— from your little mardal 🎀</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Goodbye Screen -->
+        <div class="screen" id="goodbyeScreen">
+            <div class="goodbye-text">❌ GET LOST! ❌</div>
+            <div class="subtitle" style="color: var(--text-dark);">This is only for YUGESH!</div>
+            <button class="next-btn" style="background: linear-gradient(90deg, var(--pink-b), var(--lavender-b)); color: var(--text-dark); font-weight: bold; margin-top: 30px;" onclick="location.reload()">Go Back</button>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls" id="navControls" style="position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:linear-gradient(90deg, rgba(244, 86, 170, 0.95), rgba(240, 38, 149, 0.95));border-radius:999px;padding:10px 14px;display:none;gap:8px;align-items:center;z-index:60;box-shadow:0 10px 30px rgba(15,23,42,0.06);border:1px solid rgba(15,23,42,0.03);">
+            <button class="control-btn" onclick="previousScreen()">← Previous</button>
+            <button class="control-btn" onclick="goHome()">🏠 Home</button>
+            <button class="control-btn" onclick="nextScreen()">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentScreenIndex = 0;
+        const mainScreens = [
+            'questionScreen',           // 0
+            'crownScreen',              // 1
+            'pictureQuestionScreen',    // 2
+            'cameraScreen',             // 3
+            'welcomeScreen',            // 4
+            'specialScreen',            // 5
+            'childhoodMessageScreen',   // 6
+            'ourPhotosScreen',          // 7  <-- new screen with "but ours quietly did"
+            'galleryScreen',            // 8
+            'messagesScreen',           // 9
+            'finalWishScreen'           // 10
+        ];
+
+        const finalScreenIndex = mainScreens.length - 1;
+        const finalCelebrationColors = ['#ff4f87', '#ff8f3d', '#ffd84d', '#59d48f', '#4dc3ff', '#b36bff'];
+        let finalCelebrationBurstTimer = null;
+        let finalCelebrationSpawnTimer = null;
+        let finalCelebrationCleanupTimer = null;
+
+        function clearFinalCelebration() {
+            if (finalCelebrationBurstTimer) {
+                clearInterval(finalCelebrationBurstTimer);
+                finalCelebrationBurstTimer = null;
+            }
+            if (finalCelebrationSpawnTimer) {
+                clearInterval(finalCelebrationSpawnTimer);
+                finalCelebrationSpawnTimer = null;
+            }
+            if (finalCelebrationCleanupTimer) {
+                clearTimeout(finalCelebrationCleanupTimer);
+                finalCelebrationCleanupTimer = null;
+            }
+
+            const layer = document.getElementById('finalCelebrationLayer');
+            if (layer) layer.innerHTML = '';
+        }
+
+        function spawnCelebrationPaper(layer) {
+            if (!layer) return;
+
+            const paper = document.createElement('div');
+            paper.className = 'celebration-paper';
+
+            const width = Math.floor(10 + Math.random() * 12);
+            const height = Math.floor(18 + Math.random() * 18);
+            const duration = 5.5 + Math.random() * 3.5;
+            const delay = Math.random() * 0.75;
+            const driftX = Math.floor((Math.random() - 0.5) * 220);
+            const spin = Math.floor((Math.random() * 900 + 540) * (Math.random() > 0.5 ? 1 : -1));
+
+            paper.style.left = Math.random() * 100 + '%';
+            paper.style.width = width + 'px';
+            paper.style.height = height + 'px';
+            paper.style.background = finalCelebrationColors[Math.floor(Math.random() * finalCelebrationColors.length)];
+            paper.style.setProperty('--drift-x', driftX + 'px');
+            paper.style.setProperty('--spin', spin + 'deg');
+            paper.style.animationDuration = duration + 's';
+            paper.style.animationDelay = delay + 's';
+
+            layer.appendChild(paper);
+            setTimeout(() => paper.remove(), (duration + delay) * 1000 + 1500);
+        }
+
+        function spawnSparkle(layer) {
+            if (!layer) return;
+
+            const sparkle = document.createElement('div');
+            sparkle.className = 'celebration-sparkle';
+            const color = finalCelebrationColors[Math.floor(Math.random() * finalCelebrationColors.length)];
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = (8 + Math.random() * 82) + '%';
+            sparkle.style.color = color;
+            sparkle.style.animationDelay = (Math.random() * 1.2) + 's';
+            layer.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 3200);
+        }
+
+        function triggerFinalCelebration() {
+            const layer = document.getElementById('finalCelebrationLayer');
+            if (!layer) return;
+
+            clearFinalCelebration();
+
+            for (let i = 0; i < 26; i++) {
+                spawnCelebrationPaper(layer);
+            }
+
+            for (let i = 0; i < 12; i++) {
+                spawnSparkle(layer);
+            }
+
+            finalCelebrationBurstTimer = setInterval(() => {
+                for (let i = 0; i < 4; i++) {
+                    spawnCelebrationPaper(layer);
+                }
+                for (let i = 0; i < 2; i++) {
+                    spawnSparkle(layer);
+                }
+            }, 220);
+
+            finalCelebrationSpawnTimer = setInterval(() => {
+                spawnCelebrationPaper(layer);
+                if (Math.random() > 0.45) spawnSparkle(layer);
+            }, 140);
+
+            finalCelebrationCleanupTimer = setTimeout(() => {
+                clearFinalCelebration();
+            }, 9000);
+        }
+
+        function applyUniformTypography() {
+            document.querySelectorAll('.screen *, .controls *').forEach(el => {
+                el.style.fontFamily = "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial";
+                el.style.fontStyle = 'normal';
+                el.style.fontWeight = '500';
+            });
+        }
+
+        function showScreen(index) {
+            applyUniformTypography();
+            if (index !== finalScreenIndex) {
+                clearFinalCelebration();
+            }
+
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+                screen.style.display = 'none';
+                screen.style.pointerEvents = 'none';
+            });
+
+            // Show the selected screen
+            if (index >= 0 && index < mainScreens.length) {
+                const activeScreen = document.getElementById(mainScreens[index]);
+                activeScreen.classList.add('active');
+                activeScreen.style.display = 'flex';
+                activeScreen.style.pointerEvents = 'auto';
+                currentScreenIndex = index;
+
+                if (index === finalScreenIndex) {
+                    triggerFinalCelebration();
+                }
+            }
+            // (childhood photos screen removed)
+            window.scrollTo(0, 0);
+
+            // Show controls on every screen except the final one
+            const controls = document.getElementById('navControls');
+            if (controls) {
+                controls.style.display = (index < finalScreenIndex) ? 'flex' : 'none';
+            }
+        }
+
+        applyUniformTypography();
+
+        // Slideshow controls for video-like autoplay
+        let slideshowTimer = null;
+        function startSlideshow(startIndex, delay = 4000) {
+            stopSlideshow();
+            showScreen(startIndex);
+            slideshowTimer = setInterval(() => {
+                if (currentScreenIndex < mainScreens.length - 1) {
+                    showScreen(currentScreenIndex + 1);
+                } else {
+                    stopSlideshow();
+                }
+            }, delay);
+        }
+
+        function stopSlideshow() {
+            if (slideshowTimer) {
+                clearInterval(slideshowTimer);
+                slideshowTimer = null;
+            }
+        }
+
+        function nextScreen() {
+            stopSlideshow();
+            if (currentScreenIndex === 7) {
+                showScreen(finalScreenIndex);
+            } else if (currentScreenIndex < mainScreens.length - 1) {
+                showScreen(currentScreenIndex + 1);
+            }
+        }
+
+        function previousScreen() {
+            stopSlideshow();
+            if (currentScreenIndex > 0) {
+                showScreen(currentScreenIndex - 1);
+            }
+        }
+
+        function goHome() {
+            stopSlideshow();
+            showScreen(0);
+        }
+
+        function answerYes() {
+            // Ask for a picture next (pictureQuestionScreen is index 2)
+            showScreen(2);
+        }
+
+        function answerNo() {
+            // Hide all main screens
+            mainScreens.forEach(screenId => {
+                const screenEl = document.getElementById(screenId);
+                if (!screenEl) return;
+                screenEl.classList.remove('active');
+                screenEl.style.display = 'none';
+                screenEl.style.pointerEvents = 'none';
+            });
+            // Show goodbye screen
+            const goodbyeScreen = document.getElementById('goodbyeScreen');
+            if (goodbyeScreen) {
+                goodbyeScreen.classList.add('active');
+                goodbyeScreen.style.display = 'flex';
+                goodbyeScreen.style.pointerEvents = 'auto';
+            }
+
+            const controls = document.getElementById('navControls');
+            if (controls) controls.style.display = 'none';
+        }
+
+        function celebrate() {
+            for (let i = 0; i < 30; i++) {
+                createConfetti();
+            }
+        }
+
+        function startCelebration() {
+            showScreen(finalScreenIndex);
+        }
+
+        function createConfetti() {
+            const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#11998e', '#38ef7d'];
+            const confetti = document.createElement('div');
+            confetti.style.position = 'fixed';
+            confetti.style.width = '10px';
+            confetti.style.height = '10px';
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = '-10px';
+            confetti.style.pointerEvents = 'none';
+            confetti.style.zIndex = '9999';
+            document.body.appendChild(confetti);
+
+            let top = -10;
+            const speed = Math.random() * 3 + 2;
+            const interval = setInterval(() => {
+                top += speed;
+                confetti.style.top = top + 'px';
+                confetti.style.opacity = 1 - (top / window.innerHeight);
+
+                if (top > window.innerHeight) {
+                    clearInterval(interval);
+                    confetti.remove();
+                }
+            }, 20);
+        }
+
+        // Photo Animation Function
+        function takePhotoAnimation() {
+            const photoPopup = document.getElementById('photoPopup');
+            photoPopup.classList.add('active');
+
+            // Wait for animation to complete, then show the full photo screen
+            setTimeout(() => {
+                photoPopup.classList.remove('active');
+                celebrate();
+                showScreen(3);
+            }, 900);
+        }
+
+        // File upload handling
+        function openFilePicker() {
+            const input = document.getElementById('fileInput');
+            input.value = null;
+            input.click();
+        }
+
+        (function () {
+            const fileInputEl = document.getElementById('fileInput');
+            if (!fileInputEl) return;
+
+            fileInputEl.addEventListener('change', function (e) {
+                const file = e.target.files && e.target.files[0];
+                if (!file) return;
+                const url = URL.createObjectURL(file);
+                // set popup and camera image to uploaded file
+                const popupImg = document.getElementById('popupImage');
+                const cameraImg = document.querySelector('#cameraScreen .camera-photo');
+                if (popupImg) popupImg.src = url;
+                if (cameraImg) cameraImg.src = url;
+                // show animation then camera screen
+                takePhotoAnimation();
+                // revoke the object URL after some time to free memory
+                setTimeout(() => URL.revokeObjectURL(url), 5000);
+            });
+        })();
+
+        // Carousel removed — only childhood photos (child1/child2) will appear in the message screen
+
+        // Reveal small childhood photos when the childhood message screen is scrolled
+        (function() {
+            const msgScreen = document.getElementById('childhoodMessageScreen');
+            const childScrollEl = document.getElementById('childScrollPhotos');
+            if (!msgScreen) return;
+            let virtualScroll = 0;
+
+            function resetChildPhotos() {
+                if (!childScrollEl) return;
+                childScrollEl.classList.remove('revealed');
+                childScrollEl.classList.add('hidden');
+                childScrollEl.setAttribute('aria-hidden', 'true');
+                childScrollEl.style.display = 'none';
+                virtualScroll = 0;
+            }
+
+            function checkRevealFromScroll() {
+                const childReveal = 70;
+                const scrollProgress = Math.max(msgScreen.scrollTop, virtualScroll);
+
+                if (!childScrollEl) return;
+
+                if (scrollProgress > childReveal) {
+                    childScrollEl.classList.add('revealed');
+                    childScrollEl.classList.remove('hidden');
+                    childScrollEl.setAttribute('aria-hidden', 'false');
+                    childScrollEl.style.display = 'flex';
+                } else {
+                    resetChildPhotos();
+                }
+            }
+
+            resetChildPhotos();
+            msgScreen.addEventListener('scroll', checkRevealFromScroll, { passive: true });
+            msgScreen.addEventListener('wheel', function (event) {
+                if (currentScreenIndex !== 6) return;
+                virtualScroll = Math.max(0, virtualScroll + event.deltaY);
+                checkRevealFromScroll();
+            }, { passive: true });
+            window.addEventListener('wheel', function (event) {
+                if (currentScreenIndex !== 6) return;
+                virtualScroll = Math.max(0, virtualScroll + event.deltaY);
+                checkRevealFromScroll();
+            }, { passive: true });
+            window.addEventListener('touchmove', function () {
+                if (currentScreenIndex === 6) checkRevealFromScroll();
+            }, { passive: true });
+        })();
+
+        showScreen(0);
+
+        // Close popup when clicking outside the image
+        const photoPopup = document.getElementById('photoPopup');
+        if (photoPopup) {
+            photoPopup.addEventListener('click', (e) => {
+                if (e.target === photoPopup) photoPopup.classList.remove('active');
+            });
+        }
+
+        // (childhood photos scroll reveal removed)
+
+        // Reveal medium childhood photos when the reveal section is scrolled
+        (function() {
+            const revealSection = document.getElementById('childhoodRevealSection');
+            const fullGrid = document.getElementById('childhoodFullGrid');
+            if (!revealSection || !fullGrid) return;
+
+            let ticking = false;
+            revealSection.addEventListener('scroll', function() {
+                if (ticking) return;
+                window.requestAnimationFrame(() => {
+                    const threshold = revealSection.clientHeight * 0.35;
+                    if (revealSection.scrollTop > threshold) {
+                        fullGrid.classList.add('revealed');
+                        fullGrid.setAttribute('aria-hidden', 'false');
+                    } else {
+                        fullGrid.classList.remove('revealed');
+                        fullGrid.setAttribute('aria-hidden', 'true');
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            });
+        })();
+    </script>
+</body>
+</html>
+
